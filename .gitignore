@@ -1,0 +1,12 @@
+*.class
+*.jar
+*.war
+*.ear
+
+lib/
+bin/
+wbp-meta/
+.settings
+.classpath
+.metadata
+
