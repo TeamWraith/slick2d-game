@@ -8,19 +8,18 @@ import org.newdawn.slick.state.*;
 
 public class Menu extends BasicGameState{
 
-	Image bg;
-	int buttonDesign = 10;
-	boolean fullScreen = false;
+	private Image bg;
+	private int buttonDesign = 10;
 	
-	public Menu(int state){
+	public Menu(int state) {
 		
 	}
 	
-	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException{
+	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		
 	}
 	
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException{
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		bg = new Image("res/textures/BackGround01.png");
 		g.drawImage(bg, 0, 0);
 		
@@ -33,12 +32,12 @@ public class Menu extends BasicGameState{
 	}
 	
 	
-	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException{
+	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		Input input = gc.getInput();
 		int Xpos = Mouse.getX();
 		int Ypos = Mouse.getY();
 		
-		if((Xpos > 10 && Xpos < 90) &&( Ypos > 660 && Ypos < 675)) {
+		if((Xpos > 10 && Xpos < 90) && (Ypos > 660 && Ypos < 675)) {
 			if(input.isMouseButtonDown(0)){
 				sbg.addState(new Play(1));
 				sbg.getState(1).init(gc, sbg);
@@ -46,36 +45,9 @@ public class Menu extends BasicGameState{
 			}
 		}
 
-		if ((Xpos > 10 && Xpos < 90) &&( Ypos > 610 && Ypos < 625)) {
+		if ((Xpos > 10 && Xpos < 90) &&(Ypos > 610 && Ypos < 625)) {
 			if(input.isMouseButtonDown(0)){
-				if (fullScreen) {
-					fullScreen = true;
-					gc.setFullscreen(false);
-				}
-				else {
-					fullScreen = false;
-					gc.setFullscreen(true);
-				}
-			}
-		}
-	}
-	public void toggleFullScreen(GameContainer gc) {
-		if (fullScreen) {
-			fullScreen = true;
-			try {
-				gc.setFullscreen(false);
-			} catch (SlickException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		else {
-			fullScreen = false;
-			try {
-				gc.setFullscreen(true);
-			} catch (SlickException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				gc.setFullscreen(!gc.isFullscreen());
 			}
 		}
 	}

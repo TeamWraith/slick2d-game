@@ -34,7 +34,6 @@ public class Play extends BasicGameState{
 		try {
 			mp = new MusicPlayer(this);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
