@@ -2,6 +2,7 @@
 *.jar
 *.war
 *.ear
+*.ini
 
 lib/
 native/
@@ -10,4 +11,3 @@ wbp-meta/
 .settings
 .classpath
 .metadata
-
