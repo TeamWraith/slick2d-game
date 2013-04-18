@@ -4,6 +4,7 @@
 *.ear
 
 lib/
+native/
 bin/
 wbp-meta/
 .settings
