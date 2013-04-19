@@ -1,22 +1,28 @@
 package net.teamwraith.testgame;
 
-import java.awt.Color;
-
-import org.lwjgl.input.*;
-import org.newdawn.slick.*;
-import org.newdawn.slick.state.*;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.gui.MouseOverArea;
+import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.StateBasedGame;
 
 public class Menu extends BasicGameState {
 
 	private Image bg;
-	private int buttonDesign = 10;
+	public static final int BUTTON_DESIGN = 10;
+	private MouseOverArea startButton;
+	private MouseOverArea fullscreenButton;
 	
 	public Menu(int state) {
 		
 	}
 	
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		
+		startButton = new MouseOverArea(gc, bg, 10, 45, 80, 15);
+		fullscreenButton = new MouseOverArea(gc, bg, 10, 95, 80, 15);
 	}
 	
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
@@ -24,25 +30,22 @@ public class Menu extends BasicGameState {
 		g.drawImage(bg, 0, 0);
 		
 		g.drawString("Start game!", 10, 25);
-		g.fillRoundRect(10, 45, 80, 15, buttonDesign);
-		
 		g.drawString("Screen Res.", 10, 75);
-		g.fillRoundRect(10, 95, 80, 15, buttonDesign);
 		
+		startButton.render(gc, g);
+		fullscreenButton.render(gc, g);
 	}
 	
 	
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		Input input = gc.getInput();
-		int Xpos = Mouse.getX();
-		int Ypos = Mouse.getY();
 		
-		if (input.isMouseButtonDown(0) {
-			if((Xpos > 10 && Xpos < 90) && (Ypos > 660 && Ypos < 675)) {
+		if (input.isMouseButtonDown(0)) {
+			if(startButton.isMouseOver()) {
 				sbg.addState(new Play(1));
 				sbg.getState(1).init(gc, sbg);
 				sbg.enterState(1);
-			} else if ((Xpos > 10 && Xpos < 90) &&(Ypos > 610 && Ypos < 625)) {
+			} else if (fullscreenButton.isMouseOver()) {
 				gc.setFullscreen(!gc.isFullscreen());
 			}
 		}

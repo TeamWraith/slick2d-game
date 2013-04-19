@@ -1,15 +1,13 @@
 package net.teamwraith.testgame;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.newdawn.slick.*;
-import org.newdawn.slick.state.*;
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.StateBasedGame;
 
 public class Game extends StateBasedGame{
 
