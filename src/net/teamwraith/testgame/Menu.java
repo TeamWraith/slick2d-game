@@ -6,7 +6,7 @@ import org.lwjgl.input.*;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 
-public class Menu extends BasicGameState{
+public class Menu extends BasicGameState {
 
 	private Image bg;
 	private int buttonDesign = 10;
@@ -37,16 +37,12 @@ public class Menu extends BasicGameState{
 		int Xpos = Mouse.getX();
 		int Ypos = Mouse.getY();
 		
-		if((Xpos > 10 && Xpos < 90) && (Ypos > 660 && Ypos < 675)) {
-			if(input.isMouseButtonDown(0)){
+		if (input.isMouseButtonDown(0) {
+			if((Xpos > 10 && Xpos < 90) && (Ypos > 660 && Ypos < 675)) {
 				sbg.addState(new Play(1));
 				sbg.getState(1).init(gc, sbg);
 				sbg.enterState(1);
-			}
-		}
-
-		if ((Xpos > 10 && Xpos < 90) &&(Ypos > 610 && Ypos < 625)) {
-			if(input.isMouseButtonDown(0)){
+			} else if ((Xpos > 10 && Xpos < 90) &&(Ypos > 610 && Ypos < 625)) {
 				gc.setFullscreen(!gc.isFullscreen());
 			}
 		}
