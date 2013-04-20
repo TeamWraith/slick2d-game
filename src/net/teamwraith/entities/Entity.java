@@ -1,37 +1,21 @@
 package net.teamwraith.entities;
 
 import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Shape;
 
 public abstract class Entity {
 
-	private float x;
-	private float y;
 	private float speed;
+	private Shape shape;
 	private Image image;
-	
-	public Image getImage() {
-		return image;
-	}
 
-	public void setImage(Image image) {
-		this.image = image;
-	}
-
-	public float getX() {
-		return x;
-	}
-	
-	public void setX(float x) {
-		this.x = x;
-	}
-
-	public float getY() {
-		return y;
-	}
-	
-	public void setY(float y) {
-		this.y = y;
-	}
+	/**
+	 * Specifies what happens to an entity after colliding with another entity.
+	 * <p>
+	 * In Play.java, have a method checking every entity in List entities for collisions after each frame. It will
+	 * then call the entities' onCollision if one is detected. Efficient algorithm for this required.
+	 */
+	public abstract void onCollision(Entity entity);
 	
 	public float getSpeed() {
 		return speed;
@@ -40,7 +24,21 @@ public abstract class Entity {
 	public void setSpeed(float speed) {
 		this.speed = speed;
 	}
-	
-	
+
+	public Shape getShape() {
+		return shape;
+	}
+
+	public void setShape(Shape hitbox) {
+		this.shape = hitbox;
+	}
+
+	public Image getImage() {
+		return image;
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
+	}
 	
 }
