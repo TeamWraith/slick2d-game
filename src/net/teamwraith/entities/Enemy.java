@@ -8,7 +8,7 @@ public class Enemy extends Entity {
 
 	public Enemy() {
 		try {
-			setImage(new Image("res/textures/BackGround01.png"));
+			setImage(new Image("res/textures/box.png"));
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}

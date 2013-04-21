@@ -40,7 +40,7 @@ public class Game extends StateBasedGame{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-			
+
 		try {
 			appgc = new AppGameContainer(new Game(GAME_NAME));
 			appgc.setDisplayMode(

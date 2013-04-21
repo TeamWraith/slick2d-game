@@ -6,7 +6,7 @@ import org.newdawn.slick.geom.Circle;
 
 public class Player extends Entity {
 	
-	public static final float 	NORMAL_SPEED = 0.6f, 
+	public static final float 	NORMAL_SPEED = 0.4f, 
 								SPRINT_SPEED = 0.8f;
 	
 	public Player() {
