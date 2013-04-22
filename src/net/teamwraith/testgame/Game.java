@@ -11,10 +11,11 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class Game extends StateBasedGame{
 
-	public static final String GAME_NAME = "TESTGAME";
+	public static final String GAME_NAME = "slick2d-game";
 	public static final int MENU = 0;
 	public static final int PLAY = 1;
 	public static Properties properties = new Properties();
+	public static boolean controllerEnabled = false;
 	
 	public Game(final String GAME_NAME){
 		super(GAME_NAME);

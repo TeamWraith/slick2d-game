@@ -1,7 +1,5 @@
 package net.teamwraith.testgame;
 
-import java.awt.Dimension;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -11,7 +9,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
-import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -26,7 +23,6 @@ public class Menu extends BasicGameState {
 	private float selectionPos = 64;
 	private Polygon selection;
 	
-	private boolean controllersEnabled = true;
 	public Menu(int state) {
 		
 	}
@@ -42,7 +38,7 @@ public class Menu extends BasicGameState {
 		
 		g.setColor(Color.white);
 		g.drawString("Start game!", 10, 25);
-		g.drawString("Toggle Fullscreen.", 10, 75);
+		g.drawString("Toggle Fullscreen", 10, 75);
 		g.setColor(Color.orange);
 		g.fill(startButton);
 		g.fill(fullscreenButton);
@@ -55,39 +51,12 @@ public class Menu extends BasicGameState {
 	
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		Input input = gc.getInput();
-		
-		if (controllersEnabled) {
-			ControllerControls(input, gc, sbg);
-		}
-		else {
-			NormalControls(input, gc, sbg);
-		}
-
+		controls(input, gc, sbg);
 	}
 	
-	private void ControllerControls(Input input, GameContainer gc, StateBasedGame sbg) throws SlickException {
-		
-		if (input.isControllerUp(2) && (selectedItem > 0)) { 
-			selectionPos = selectionPos - 50;
-			selectedItem--;
-		}
-		if (input.isControllerDown(2) && (selectedItem < 1)) { 
-			selectionPos = selectionPos + 50;
-			selectedItem++;
-		}
-		
-		if (input.isButton1Pressed(2)) {
-			if (selection.contains(startButton)) {
-				stateOne(gc, sbg);
-			}
-			if (selection.contains(fullscreenButton)) {
-				gc.setFullscreen(!gc.isFullscreen());
-			}
-		}
-
-	}
-
-	private void NormalControls(Input input, GameContainer gc, StateBasedGame sbg) throws SlickException {
+	// TODO: Implement full controller support later.
+	// TODO: Create methods for each button's function WITHOUT a messy controls method.
+	private void controls(Input input, GameContainer gc, StateBasedGame sbg) throws SlickException {
 		
 		if (input.isKeyPressed(Input.KEY_W) && (selectedItem > 0)) { 
 			selectionPos = selectionPos - 50;
