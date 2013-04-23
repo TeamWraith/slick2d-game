@@ -38,26 +38,27 @@ public class Play extends BasicGameState {
 		Input input = gc.getInput();
 		keyboardMovement(input);
 		holdPlayerInScreen(gc);
+		detectCollisions();
 
 	}
 	
 	private void keyboardMovement(Input input) {
 		
-		if (Keys.Bindings.SPRINT.getKey().isKeyDown(input)) {
+		if (Keys.Bindings.SPRINT.getKey(input)) {
 			player.setSpeed(Player.SPRINT_SPEED);
 		} else {
 			player.setSpeed(Player.NORMAL_SPEED);
 		}
-		if (Keys.Bindings.UP.getKey().isKeyDown(input)) { 
+		if (Keys.Bindings.UP.getKey(input)) { 
 			player.getShape().setY(player.getShape().getY() - player.getSpeed());
 		}
-		if (Keys.Bindings.DOWN.getKey().isKeyDown(input)) { 
+		if (Keys.Bindings.DOWN.getKey(input)) { 
 			player.getShape().setY(player.getShape().getY() + player.getSpeed());
 		}
-		if (Keys.Bindings.LEFT.getKey().isKeyDown(input)) { 
+		if (Keys.Bindings.LEFT.getKey(input)) { 
 			player.getShape().setX(player.getShape().getX() - player.getSpeed());
 		}
-		if (Keys.Bindings.RIGHT.getKey().isKeyDown(input)) {
+		if (Keys.Bindings.RIGHT.getKey(input)) {
 			player.getShape().setX(player.getShape().getX() + player.getSpeed());
 		}
 	}
@@ -76,6 +77,18 @@ public class Play extends BasicGameState {
 		}
 		if (player.getShape().getY() < 0) {
 			player.getShape().setY(gc.getHeight());
+		}
+	}
+	
+	public void detectCollisions() {
+		for (int i = 0; i < entities.size(); i++) {
+			Entity e1 = entities.get(i);
+			for (int j = i; j < entities.size(); j++) {
+				Entity e2 = entities.get(j);
+				if (e1.getShape().intersects(e2.getShape())) {
+					e1.onCollision(e2);
+				}
+			}
 		}
 	}
 	

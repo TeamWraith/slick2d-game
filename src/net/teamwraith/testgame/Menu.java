@@ -58,20 +58,18 @@ public class Menu extends BasicGameState {
 	// TODO: Create methods for each button's function WITHOUT a messy controls method.
 	private void controls(Input input, GameContainer gc, StateBasedGame sbg) throws SlickException {
 		
-		if (input.isKeyPressed(Input.KEY_W) && (selectedItem > 0)) { 
+		if (Keys.Bindings.UP.getKey(input) && (selectedItem > 0)) { 
 			selectionPos = selectionPos - 50;
 			selectedItem--;
-		}
-		if (input.isKeyPressed(Input.KEY_S) && (selectedItem < 1)) { 
+		} else if (Keys.Bindings.DOWN.getKey(input) && (selectedItem < 1)) { 
 			selectionPos = selectionPos + 50;
 			selectedItem++;
 		}
 		
-		if (input.isKeyPressed(Input.KEY_ENTER)) {
+		if (Keys.Bindings.SELECT.getKey(input)) {
 			if (selection.contains(startButton)) {
 				stateOne(gc, sbg);
-			}
-			if (selection.contains(fullscreenButton)) {
+			} else if (selection.contains(fullscreenButton)) {
 				gc.setFullscreen(!gc.isFullscreen());
 			}
 		}
@@ -79,8 +77,7 @@ public class Menu extends BasicGameState {
 		if (input.isMouseButtonDown(0)) {
 			if(startButton.contains(input.getMouseX(), input.getMouseY())) {
 				stateOne(gc, sbg);
-			}
-			if (fullscreenButton.contains(input.getMouseX(), input.getMouseY())) {
+			} else if (fullscreenButton.contains(input.getMouseX(), input.getMouseY())) {
 				gc.setFullscreen(!gc.isFullscreen());
 			}
 		}

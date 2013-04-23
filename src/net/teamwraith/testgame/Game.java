@@ -9,7 +9,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class Game extends StateBasedGame{
+public class Game extends StateBasedGame {
 
 	public static final String GAME_NAME = "slick2d-game";
 	public static final int MENU = 0;
@@ -24,7 +24,7 @@ public class Game extends StateBasedGame{
 	
 	public void initStatesList(GameContainer gc) {
 		try {
-			this.getState(MENU).init(gc, this);
+			getState(MENU).init(gc, this);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
