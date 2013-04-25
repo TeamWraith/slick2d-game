@@ -16,6 +16,7 @@ public class Keys {
 	 * @param secondary - the secondary binding.
 	 */
 	static class Key {
+		
 		public Key (int primary, int secondary) {
 			this.primary = primary;
 			this.secondary = secondary;
@@ -23,6 +24,10 @@ public class Keys {
 		
 		public boolean isKeyDown (Input input) {
 			return input.isKeyDown(primary) || input.isKeyDown(secondary);
+		}
+		
+		public boolean isKeyTyped (Input input) {
+				return input.isKeyPressed(primary) || input.isKeyPressed(secondary);
 		}
 		
 		public void setPrimary(int primary) {
@@ -66,6 +71,15 @@ public class Keys {
 		 */
 		public boolean getKey(Input input) {
 			return key.isKeyDown(input);
+		}
+		
+		/**
+		 * Returns true when the key is pressed once.
+		 * 
+		 * @param input - input object is required.
+		 */
+		public boolean getKeyTyped(Input input) {
+			return key.isKeyTyped(input);
 		}
 	}
 

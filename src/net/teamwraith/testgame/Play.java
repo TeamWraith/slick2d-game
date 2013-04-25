@@ -16,9 +16,10 @@ public class Play extends BasicGameState {
 	
 	Player player;
 	ArrayList<Entity> entities = new ArrayList<Entity>();
+	private int state;
 	
 	public Play(int state){
-		
+		this.state = state;
 	}
 	
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException{
@@ -93,7 +94,7 @@ public class Play extends BasicGameState {
 	}
 	
 	public int getID(){
-		return 1;
+		return state;
 	}
 	
 }

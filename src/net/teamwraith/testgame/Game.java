@@ -14,6 +14,7 @@ public class Game extends StateBasedGame {
 	public static final String GAME_NAME = "slick2d-game";
 	public static final int MENU = 0;
 	public static final int PLAY = 1;
+	public static final int OPTIONS = 2;
 	public static Properties properties = new Properties();
 	public static boolean controllerEnabled = false;
 	
