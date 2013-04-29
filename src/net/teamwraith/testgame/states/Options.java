@@ -1,4 +1,8 @@
-package net.teamwraith.testgame;
+package net.teamwraith.testgame.states;
+
+import net.teamwraith.testgame.Game;
+import net.teamwraith.testgame.Keys;
+import net.teamwraith.testgame.Keys.Bindings;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -16,8 +20,8 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Options extends BasicGameState { 
 	
 	private Image bg;
-
-	private Shape controlsButton, ratioButton, resButton, fullscreenButton;
+	
+	private Shape controlsButton, ratioButton, resButton, fullscreenButton, backButton;
 	
 	private int selectedItem = 0;
 	private int selectionPos = 64;
@@ -39,6 +43,7 @@ public class Options extends BasicGameState {
 		ratioButton = new Rectangle(10, 95, 80, 15);
 		resButton = new Rectangle(10, 145, 80, 15);
 		fullscreenButton = new Rectangle(10, 195, 80, 15);
+		backButton = new Rectangle(10, gc.getHeight() - 40, 80, 15);
 		
 		ratioControl(gc.getInput(), gc, sbg);
 		resolutionControl(gc.getInput(), gc, sbg);
@@ -62,12 +67,17 @@ public class Options extends BasicGameState {
 		g.fill(ratioButton);
 		g.fill(resButton);
 		g.fill(fullscreenButton);
+		g.fill(backButton);
 		
 		g.setColor(Color.magenta);
 		selection = new Polygon(new float[] {5,selectionPos, 95, selectionPos, 95, selectionPos-22, 5, selectionPos-22});
 		
 		g.draw(selection);
-		g.drawString(resolution, 110, 145);
+		if (isNative()) {
+			g.drawString(resolution+"(Native)", 110, 145);
+		} else {
+			g.drawString(resolution, 110, 145);
+		}
 		g.drawString(aspectRatio, 110, 95);
 	}
 	
@@ -162,6 +172,16 @@ public class Options extends BasicGameState {
 		}
 		aspectRatio = ratio[this.ratio];
 		resolutionControl(input, gc, sbg);
+	}
+	
+	private boolean isNative() {
+		if (resolution.equals(Game.defaultGraphicsDevice.getDisplayMode().getWidth()+"x"
+			+Game.defaultGraphicsDevice.getDisplayMode().getHeight())) {
+			return true;
+		} else {
+			return false;
+		}
+			
 	}
 	
 	public int getID() {

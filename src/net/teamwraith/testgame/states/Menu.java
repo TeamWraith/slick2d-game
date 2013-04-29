@@ -1,4 +1,7 @@
-package net.teamwraith.testgame;
+package net.teamwraith.testgame.states;
+
+import net.teamwraith.testgame.Keys;
+import net.teamwraith.testgame.Keys.Bindings;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;

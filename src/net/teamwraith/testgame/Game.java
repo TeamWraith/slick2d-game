@@ -1,8 +1,12 @@
 package net.teamwraith.testgame;
 
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
+
+import net.teamwraith.testgame.states.Menu;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
@@ -17,6 +21,7 @@ public class Game extends StateBasedGame {
 	public static final int OPTIONS = 2;
 	public static Properties properties = new Properties();
 	public static boolean controllerEnabled = false;
+	public static final GraphicsDevice defaultGraphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 	
 	public Game(final String GAME_NAME){
 		super(GAME_NAME);
@@ -50,6 +55,7 @@ public class Game extends StateBasedGame {
 				Integer.parseInt(properties.getProperty("height")), 
 				Boolean.parseBoolean(properties.getProperty("fullscreen"))
 			);
+			appgc.setVSync(true);
 			appgc.start();
 		} catch(SlickException e) {
 			e.printStackTrace();

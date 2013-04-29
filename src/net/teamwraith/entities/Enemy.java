@@ -5,7 +5,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 public class Enemy extends Entity {
-
+	
 	public Enemy() {
 		try {
 			setImage(new Image("res/textures/box.png"));
@@ -16,6 +16,7 @@ public class Enemy extends Entity {
 		setShape(new Rectangle(50, 50, getImage().getWidth(), getImage().getHeight()));
 	}
 	
+
 	@Override
 	public void onCollision(Entity entity) {
 		

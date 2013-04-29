@@ -1,9 +1,13 @@
-package net.teamwraith.testgame;
+package net.teamwraith.testgame.states;
 
 import java.util.ArrayList;
+import java.util.Random;
 
+import net.teamwraith.entities.Enemy;
 import net.teamwraith.entities.Entity;
 import net.teamwraith.entities.Player;
+import net.teamwraith.testgame.Keys;
+import net.teamwraith.testgame.Keys.Bindings;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -32,7 +36,7 @@ public class Play extends BasicGameState {
 			player.getImage().getScaledCopy((int) player.getShape().getWidth(), (int) player.getShape().getHeight()), 
 			player.getShape().getCenterX(), 
 			player.getShape().getCenterY()
-		);
+		);	
 	}
 	
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException{
@@ -62,6 +66,7 @@ public class Play extends BasicGameState {
 		if (Keys.Bindings.RIGHT.getKey(input)) {
 			player.getShape().setX(player.getShape().getX() + player.getSpeed());
 		}
+
 	}
 
 	private void holdPlayerInScreen(GameContainer gc) {
