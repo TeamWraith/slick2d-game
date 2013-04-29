@@ -22,28 +22,33 @@ public class Options extends BasicGameState {
 	private Image bg;
 	
 	private Shape controlsButton, ratioButton, resButton, fullscreenButton, backButton;
+	private Shape[] buttons = {controlsButton, ratioButton, resButton, fullscreenButton, backButton};
 	
 	private int selectedItem = 0;
-	private int selectionPos = 64;
+	private boolean selected = false;
 	private Polygon selection;
-
+	
+	private boolean usingKeyboard = false;
+	private int prevMouseX, prevMouseY; 
+	
 	private String aspectRatio;
 	private String resolution;
 	private int ratio = 1;
 	private int res = 4;
 	
 	private int state;
+
 	
 	public Options(int state) {
 		this.state = state; 
 	}
 	
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		controlsButton = new Rectangle(10, 45, 80, 15);
-		ratioButton = new Rectangle(10, 95, 80, 15);
-		resButton = new Rectangle(10, 145, 80, 15);
-		fullscreenButton = new Rectangle(10, 195, 80, 15);
-		backButton = new Rectangle(10, gc.getHeight() - 40, 80, 15);
+		buttons[0] = new Rectangle(10, 45, 80, 15);
+		buttons[1] = new Rectangle(10, 95, 80, 15);
+		buttons[2] = new Rectangle(10, 145, 80, 15);
+		buttons[3] = new Rectangle(10, 195, 80, 15);
+		buttons[4] = new Rectangle(10, gc.getHeight() - 40, 80, 15);
 		
 		ratioControl(gc.getInput(), gc, sbg);
 		resolutionControl(gc.getInput(), gc, sbg);
@@ -63,65 +68,124 @@ public class Options extends BasicGameState {
 		g.fill(new Rectangle(110, 145, 140, 15));
 		
 		g.setColor(Color.orange);
-		g.fill(controlsButton);
-		g.fill(ratioButton);
-		g.fill(resButton);
-		g.fill(fullscreenButton);
-		g.fill(backButton);
-		
+
+		for (int i=0; i < buttons.length; i++) {
+			g.fill(buttons[i]);
+		}
+
 		g.setColor(Color.magenta);
-		selection = new Polygon(new float[] {5,selectionPos, 95, selectionPos, 95, selectionPos-22, 5, selectionPos-22});
-		
-		g.draw(selection);
 		if (isNative()) {
 			g.drawString(resolution+"(Native)", 110, 145);
 		} else {
 			g.drawString(resolution, 110, 145);
 		}
 		g.drawString(aspectRatio, 110, 95);
+
 	}
 	
 	
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
+		reInit(gc, sbg);
 		Input input = gc.getInput();
 		controls(input, gc, sbg);
+		
 	}
 
+	public void reInit(GameContainer gc, StateBasedGame sbg) {
+		if (selected) {
+			buttons[0] = new Rectangle(10, 45, 80, 15);
+			buttons[1] = new Rectangle(10, 95, 80, 15);
+			buttons[2] = new Rectangle(10, 145, 80, 15);
+			buttons[3] = new Rectangle(10, 195, 80, 15);
+			buttons[4] = new Rectangle(10, gc.getHeight() - 40, 80, 15);
+		}
+		
+		selection = new Polygon(new float[] {
+				buttons[selectedItem].getMinX()-5, buttons[selectedItem].getMinY()-5,
+				buttons[selectedItem].getMinX()-5, buttons[selectedItem].getMaxY()+5,
+				buttons[selectedItem].getMaxX()+5, buttons[selectedItem].getMaxY()+5,
+				buttons[selectedItem].getMaxX()+5, buttons[selectedItem].getMinY()-5
+				});
+		
+		if (prevMouseX != gc.getInput().getMouseX() || prevMouseY != gc.getInput().getMouseY()) {
+			usingKeyboard = false;
+		}
+	}
+	
 	private void controls(Input input, GameContainer gc, StateBasedGame sbg) throws SlickException {
 		
 		if (Keys.Bindings.UP.getKeyTyped(input) && (selectedItem > 0)) { 
-			selectionPos = selectionPos - 50;
 			selectedItem--;
-		} else if (Keys.Bindings.DOWN.getKeyTyped(input) && (selectedItem < 3)) { 
-			selectionPos = selectionPos + 50;
+			selected = false;
+			usingKeyboard = true;
+			prevMouseX = input.getMouseX();
+			prevMouseY = input.getMouseY();
+		} else if (Keys.Bindings.DOWN.getKeyTyped(input) && selectedItem < buttons.length-1) {
 			selectedItem++;
+			selected = false;
+			usingKeyboard = true;
+			prevMouseX = input.getMouseX();
+			prevMouseY = input.getMouseY();
 		}
+		buttonIndicator(gc);
 		
 		if (Keys.Bindings.SELECT.getKeyTyped(input)) {
-			if (selection.contains(controlsButton)) {
+			if (selection.contains(buttons[0])) {
 				System.out.println("TODO");
-			} else if (selection.contains(ratioButton)) {
+			} else if (selection.contains(buttons[1])) {
 				ratioControl(input, gc, sbg);
-			} else if (selection.contains(resButton)) {
+			} else if (selection.contains(buttons[2])) {
 				resolutionControl(input, gc, sbg);
-			} else if (selection.contains(fullscreenButton)) {
+			} else if (selection.contains(buttons[3])) {
 				gc.setFullscreen(!gc.isFullscreen());
+			} else if (selection.contains(buttons[4])) {
+				sbg.enterState(0);
 			}
 		}
 
 		if (input.isMousePressed(0)) {
-			if(controlsButton.contains(input.getMouseX(), input.getMouseY())) {
+			if(buttons[0].contains(input.getMouseX(), input.getMouseY())) {
 				System.out.println("TODO");
-			} else if (ratioButton.contains(input.getMouseX(), input.getMouseY())) {
+			} else if (buttons[1].contains(input.getMouseX(), input.getMouseY())) {
 				ratioControl(input, gc, sbg);
-			} else if (resButton.contains(input.getMouseX(), input.getMouseY())) {
+			} else if (buttons[2].contains(input.getMouseX(), input.getMouseY())) {
 				resolutionControl(input, gc, sbg);
-			} else if (fullscreenButton.contains(input.getMouseX(), input.getMouseY())) {
+			} else if (buttons[3].contains(input.getMouseX(), input.getMouseY())) {
 				gc.setFullscreen(!gc.isFullscreen());
+			} else if (buttons[4].contains(input.getMouseX(), input.getMouseY())) {
+				sbg.enterState(0);
 			}
 		}
 	}
 
+	private void buttonIndicator(GameContainer gc) {
+
+		if (usingKeyboard) {
+			buttons[selectedItem] = new Rectangle(
+					buttons[selectedItem].getMinX()+5, 
+					buttons[selectedItem].getMinY()-(5/2),
+					buttons[selectedItem].getMaxX()-buttons[selectedItem].getMinX()+5, 
+					buttons[selectedItem].getMaxY()-buttons[selectedItem].getMinY()+5);
+			selected = true;
+		}
+		else {
+			for (int i=0; i < buttons.length; i++) {
+				if (buttons[i].contains(gc.getInput().getMouseX(), gc.getInput().getMouseY())) {
+					selectedItem = i;
+					buttons[selectedItem] = new Rectangle(
+							buttons[selectedItem].getMinX()+5, 
+							buttons[selectedItem].getMinY()-(5/2),
+							buttons[selectedItem].getMaxX()-buttons[selectedItem].getMinX()+5, 
+							buttons[selectedItem].getMaxY()-buttons[selectedItem].getMinY()+5);
+					selected = true;
+				}
+			}
+		}
+
+		
+		
+	}
+	
 	private void resolutionControl(Input input, GameContainer gc, StateBasedGame sbg) throws SlickException {
 		String[] res = {
 			"640x480", "720x576",

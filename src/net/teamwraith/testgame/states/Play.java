@@ -41,18 +41,18 @@ public class Play extends BasicGameState {
 	
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException{
 		Input input = gc.getInput();
-		keyboardMovement(input);
+		keyboardMovement(input, delta);
 		holdPlayerInScreen(gc);
 		detectCollisions();
 
 	}
 	
-	private void keyboardMovement(Input input) {
+	private void keyboardMovement(Input input, int delta) {
 		
 		if (Keys.Bindings.SPRINT.getKey(input)) {
-			player.setSpeed(Player.SPRINT_SPEED);
+			player.setSpeed(Player.SPRINT_SPEED*delta);
 		} else {
-			player.setSpeed(Player.NORMAL_SPEED);
+			player.setSpeed(Player.NORMAL_SPEED*delta);
 		}
 		if (Keys.Bindings.UP.getKey(input)) { 
 			player.getShape().setY(player.getShape().getY() - player.getSpeed());

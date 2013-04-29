@@ -55,7 +55,7 @@ public class Game extends StateBasedGame {
 				Integer.parseInt(properties.getProperty("height")), 
 				Boolean.parseBoolean(properties.getProperty("fullscreen"))
 			);
-			appgc.setVSync(true);
+			appgc.setVSync(false);
 			appgc.start();
 		} catch(SlickException e) {
 			e.printStackTrace();

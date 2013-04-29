@@ -20,9 +20,14 @@ public class Menu extends BasicGameState {
 	private Image bg;
 	
 	private Shape startButton, optionsButton;
+	private Shape[] buttons = {startButton, optionsButton};
 	
-	private int selectedItem = 0, selectionPos = 64;
+	private int selectedItem = 0;
+	private boolean selected = false;
 	private Polygon selection;
+	
+	private boolean usingKeyboard = false;
+	private int prevMouseX, prevMouseY; 
 	
 	private Options options;
 	private Play play;
@@ -33,8 +38,8 @@ public class Menu extends BasicGameState {
 	}
 	
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		startButton = new Rectangle(10, 45, 80, 15);
-		optionsButton = new Rectangle(10, 95, 80, 15);
+		buttons[0] = new Rectangle(10, 45, 80, 15);
+		buttons[1] = new Rectangle(10, 95, 80, 15);
 		
 	}
 	
@@ -47,18 +52,35 @@ public class Menu extends BasicGameState {
 		g.drawString("Options", 10, 75);
 		
 		g.setColor(Color.orange);
-		g.fill(startButton);
-		g.fill(optionsButton);
+		for (int i=0; i < buttons.length; i++) {
+			g.fill(buttons[i]);
+		}
 		
-		g.setColor(Color.magenta);
-		selection = new Polygon(new float[] {5,selectionPos, 95, selectionPos, 95, selectionPos-22, 5, selectionPos-22});
-		g.draw(selection);
 	}
 	
 	
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
+		reInit(gc, sbg);
 		Input input = gc.getInput();
 		controls(input, gc, sbg);
+	}
+	
+	public void reInit(GameContainer gc, StateBasedGame sbg) {
+		if (selected) {
+			buttons[0] = new Rectangle(10, 45, 80, 15);
+			buttons[1] = new Rectangle(10, 95, 80, 15);
+		}
+		
+		selection = new Polygon(new float[] {
+				buttons[selectedItem].getMinX()-5, buttons[selectedItem].getMinY()-5,
+				buttons[selectedItem].getMinX()-5, buttons[selectedItem].getMaxY()+5,
+				buttons[selectedItem].getMaxX()+5, buttons[selectedItem].getMaxY()+5,
+				buttons[selectedItem].getMaxX()+5, buttons[selectedItem].getMinY()-5
+				});
+		
+		if (prevMouseX != gc.getInput().getMouseX() || prevMouseY != gc.getInput().getMouseY()) {
+			usingKeyboard = false;
+		}
 	}
 	
 	// TODO: Implement full controller support later.
@@ -66,28 +88,63 @@ public class Menu extends BasicGameState {
 	private void controls(Input input, GameContainer gc, StateBasedGame sbg) throws SlickException {
 		
 		if (Keys.Bindings.UP.getKeyTyped(input) && (selectedItem > 0)) { 
-			selectionPos = selectionPos - 50;
 			selectedItem--;
-		} else if (Keys.Bindings.DOWN.getKeyTyped(input) && (selectedItem < 1)) { 
-			selectionPos = selectionPos + 50;
+			selected = false;
+			usingKeyboard = true;
+			prevMouseX = input.getMouseX();
+			prevMouseY = input.getMouseY();
+		} else if (Keys.Bindings.DOWN.getKeyTyped(input) && selectedItem < buttons.length-1) {
 			selectedItem++;
+			selected = false;
+			usingKeyboard = true;
+			prevMouseX = input.getMouseX();
+			prevMouseY = input.getMouseY();
 		}
+		buttonIndicator(gc);
 		
 		if (Keys.Bindings.SELECT.getKeyTyped(input)) {
-			if (selection.contains(startButton)) {
+			if (selection.contains(buttons[0])) {
 				stateOne(gc, sbg);
-			} else if (selection.contains(optionsButton)) {
+			} else if (selection.contains(buttons[1])) {
 				options(gc, sbg);
 			}
 		}
 
 		if (input.isMousePressed(0)) {
-			if(startButton.contains(input.getMouseX(), input.getMouseY())) {
+			if(buttons[0].contains(input.getMouseX(), input.getMouseY())) {
 				stateOne(gc, sbg);
-			} else if (optionsButton.contains(input.getMouseX(), input.getMouseY())) {
+			} else if (buttons[1].contains(input.getMouseX(), input.getMouseY())) {
 				options(gc, sbg);
 			}
 		}
+	}
+	
+	private void buttonIndicator(GameContainer gc) {
+
+		if (usingKeyboard) {
+			buttons[selectedItem] = new Rectangle(
+					buttons[selectedItem].getMinX()+5, 
+					buttons[selectedItem].getMinY()-(5/2),
+					buttons[selectedItem].getMaxX()-buttons[selectedItem].getMinX()+5, 
+					buttons[selectedItem].getMaxY()-buttons[selectedItem].getMinY()+5);
+			selected = true;
+		}
+		else {
+			for (int i=0; i < buttons.length; i++) {
+				if (buttons[i].contains(gc.getInput().getMouseX(), gc.getInput().getMouseY())) {
+					selectedItem = i;
+					buttons[selectedItem] = new Rectangle(
+							buttons[selectedItem].getMinX()+5, 
+							buttons[selectedItem].getMinY()-(5/2),
+							buttons[selectedItem].getMaxX()-buttons[selectedItem].getMinX()+5, 
+							buttons[selectedItem].getMaxY()-buttons[selectedItem].getMinY()+5);
+					selected = true;
+				}
+			}
+		}
+
+		
+		
 	}
 	
 	public int getID(){
