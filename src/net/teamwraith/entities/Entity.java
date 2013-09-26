@@ -4,7 +4,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Shape;
 
 public abstract class Entity {
-
+	
+	private float timescale;
 	private float speed;
 	private Shape shape;
 	private Image image;
@@ -16,6 +17,14 @@ public abstract class Entity {
 	 * then call the entities' onCollision if one is detected. Efficient algorithm for this required.
 	 */
 	public abstract void onCollision(Entity entity);
+	
+	public float getTimeScale() {
+		return timeScale;
+	}
+	
+	public void setTimeScale(float timeScale) {
+		this.timeScale = timeScale;
+	}
 	
 	public float getSpeed() {
 		return speed;
