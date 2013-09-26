@@ -5,7 +5,7 @@ import org.newdawn.slick.geom.Shape;
 
 public abstract class Entity {
 	
-	private float timescale;
+	private float timescale = 1;
 	private float speed;
 	private Shape shape;
 	private Image image;
